@@ -1,0 +1,16 @@
+### 404 root
+GET http://localhost:3333
+
+
+### 404 auth
+GET http://localhost:3333/auth
+
+### create user
+POST http://localhost:3333/auth/signup
+Content-Type: application/json
+
+{
+  "email": "veerappa.software@gmail.com",
+  "password": "ddddasdfdf",
+  "dummyProp": "dummyProp"
+}
