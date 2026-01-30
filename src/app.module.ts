@@ -13,7 +13,14 @@ import { Report } from './reports/report.entity';
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [User, Report],
-      synchronize: true, //DEV ONLY OPTION! NOT FOR PROD SINCE DB SCHEMA CAN BE AUTO-CREATED ON EACH APP LAUNCH!!
+      /** DEV ONLY OPTION! NOT FOR PROD SINCE DB SCHEMA CAN BE AUTO-CREATED ON EACH APP LAUNCH!!
+       * When an Entity is updated, this flag if TRUE, lets typeORM to update the DB schema.
+       * It can DELETE a column as well if removed from Entity!!
+       * Use cautiously and for initial DB structure only when in still in DEVELOPMENT!!
+       *
+       * If this flag is FALSE, then a migration SQL script has to be created to update/change the DB structure manually.
+       */
+      synchronize: true,
     }),
     UsersModule,
     ReportsModule,

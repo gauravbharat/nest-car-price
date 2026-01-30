@@ -1,11 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity() // typeORM creates a table in the db
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn() // typeORM creates a primary column; INTEGER in this case
   id: number;
 
-  @Column()
+  @Column() // typeORM creates a column; VARCHAR in this case
   email: string;
 
   @Column()
