@@ -10,7 +10,13 @@ POST http://localhost:3333/auth/signup
 Content-Type: application/json
 
 {
-  "email": "veerappa.software@gmail.com",
+  "email": "gaurav.mendse@gmail.com",
   "password": "ddddasdfdf",
   "dummyProp": "dummyProp"
 }
+
+### get user by ID
+GET http://localhost:3333/auth?id=1
+
+### get user by email
+GET http://localhost:3333/auth?email=gaurav.mendse@gmail.com

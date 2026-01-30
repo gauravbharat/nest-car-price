@@ -23,4 +23,14 @@ export class UsersService {
     // remove() vs delete() method:
     // with the later, any entity HOOKS are NOT executed
   }
+
+  find(email: string) {
+    // returns an array with or without records
+    return this.repo.find({ where: { email } });
+  }
+
+  findOne(id: number) {
+    // returns an object
+    return this.repo.findOneBy({ id });
+  }
 }
