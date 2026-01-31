@@ -22,6 +22,7 @@ export class UsersService {
     // save() vs insert() /update() methods, OR
     // remove() vs delete() method:
     // with the later, any entity HOOKS are NOT executed
+    // since those methods are made to be used with plain objects!!
   }
 
   find(email: string) {
@@ -32,5 +33,38 @@ export class UsersService {
   findOne(id: number) {
     // returns an object
     return this.repo.findOneBy({ id });
+  }
+
+  // used Partial so the update body can have all, some or none of the User properties
+  async update(id: number, attrs: Partial<User>) {
+    // Instead of update() method, which is designed to be used with an object INSTEAD of an entity,
+    // save() is used because we want any Entity Hooks to be executed
+    // that are available in the User Entity class.
+    const user = await this.findOne(id);
+
+    if (!user) {
+      // throwing a NotFoundException here could be caught by the HTTP protocol controller, however,
+      // WebSocket and GRPC may not understand how to handle the exception.
+      throw new Error('user not found');
+    }
+
+    Object.assign(user, attrs);
+
+    return this.repo.save(user);
+  }
+
+  async remove(id: number) {
+    // Instead of delete() method, which is designed to be used with an object INSTEAD of an entity,
+    // remove() is used because we want any Entity Hooks to be executed
+
+    const user = await this.findOne(id);
+
+    if (!user) {
+      // throwing a NotFoundException here could be caught by the HTTP protocol controller, however,
+      // WebSocket and GRPC may not understand how to handle the exception.
+      throw new Error('user not found');
+    }
+
+    return this.repo.remove(user);
   }
 }

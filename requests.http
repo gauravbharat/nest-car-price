@@ -15,8 +15,24 @@ Content-Type: application/json
   "dummyProp": "dummyProp"
 }
 
+### find user by ID
+GET http://localhost:3333/auth/2
+
 ### get user by ID
-GET http://localhost:3333/auth?id=1
+GET http://localhost:3333/auth?id=3
 
 ### get user by email
-GET http://localhost:3333/auth?email=gaurav.mendse@gmail.com
+GET http://localhost:3333/auth?email=veerappa.software@gmail.com
+
+### update user by ID
+PATCH http://localhost:3333/auth/2
+Content-Type: application/json
+
+{
+  "password": "kucchaPassword3",
+  "dummy": "dummy prop value",
+  "id": 4
+}
+
+### remove user
+DELETE  http://localhost:3333/auth/4
