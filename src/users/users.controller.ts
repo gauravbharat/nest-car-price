@@ -67,13 +67,14 @@ export class UsersController {
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     try {
       // console.log('updateUser : body', body);
-      await this.userService.update(parseInt(id), body);
+      const updatedUser = await this.userService.update(parseInt(id), body);
+      return updatedUser;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundException();
     }
 
-    return HttpStatus.OK;
+    // return HttpStatus.OK;
   }
 
   @Delete('/:id')
@@ -85,6 +86,6 @@ export class UsersController {
       throw new NotFoundException();
     }
 
-    return HttpStatus.OK;
+    return { statusCode: HttpStatus.OK };
   }
 }
