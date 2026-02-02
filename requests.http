@@ -19,10 +19,10 @@ Content-Type: application/json
 GET http://localhost:3333/auth/2
 
 ### get user by ID
-GET http://localhost:3333/auth?id=3
+GET http://localhost:3333/auth?id=2
 
 ### get user by email
-GET http://localhost:3333/auth?email=veerappa.software@gmail.com
+GET http://localhost:3333/auth?email=gaurav.mendse@gmail.com
 
 ### update user by ID
 PATCH http://localhost:3333/auth/2
