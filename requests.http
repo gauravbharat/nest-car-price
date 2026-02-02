@@ -25,14 +25,14 @@ GET http://localhost:3333/auth?id=2
 GET http://localhost:3333/auth?email=gaurav.mendse@gmail.com
 
 ### update user by ID
-PATCH http://localhost:3333/auth/2
+PATCH http://localhost:3333/auth/5
 Content-Type: application/json
 
 {
-  "password": "kucchaPassword3",
+  "password": "kucchaPassword5",
   "dummy": "dummy prop value",
-  "id": 4
+  "id": 5
 }
 
 ### remove user
-DELETE  http://localhost:3333/auth/4
+DELETE  http://localhost:3333/auth/3

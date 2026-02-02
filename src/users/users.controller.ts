@@ -10,16 +10,15 @@ import {
   Patch,
   Post,
   Query,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
-@UseInterceptors(new SerializeInterceptor(UserDto))
+@Serialize(UserDto) // APPLIES TO ALL ROUTE HANDLERS
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
@@ -30,6 +29,7 @@ export class UsersController {
 
   // Below Route handlers are NOT required; created as an examples for typeORM working
   @Get('/:id')
+  // @Serialize(UserDto) - CAN BE USED ON INDIVIDUAL ROUTE HANDLERS AS WELL
   async findUserById(@Param('id') id: string) {
     const foundUser = await this.userService.findOne(+id);
 
