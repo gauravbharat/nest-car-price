@@ -18,6 +18,8 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDto) // APPLIES TO ALL ROUTE HANDLERS
@@ -27,15 +29,24 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('/whoami')
-  whoAmI(@Session() session: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if ('userId' in session && typeof session.userId !== 'number') {
+  // @Get('/whoami')
+  // whoAmI(@Session() session: any) {
+  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  //   if ('userId' in session && typeof session.userId !== 'number') {
+  //     throw new BadRequestException('bad request');
+  //   }
+
+  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+  //   return this.userService.findOne(session.userId);
+  // }
+
+  @Get('whoami')
+  whoAmI(@CurrentUser() user: User) {
+    if (!user) {
       throw new BadRequestException('bad request');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    return this.userService.findOne(session.userId);
+    return user;
   }
 
   @Post('/signout')

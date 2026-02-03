@@ -5,16 +5,16 @@ GET http://localhost:3333
 ### 404 auth
 GET http://localhost:3333/auth
 
-### Get user info from Session.userId
-GET http://localhost:3333/auth/whoami
+### Signout
+POST http://localhost:3333/auth/signout
 
 ### create user
 POST http://localhost:3333/auth/signup
 Content-Type: application/json
 
 {
-  "email": "gaurav.mendse@gmail.com",
-  "password": "12345",
+  "email": "sayuri.mendse@gmail.com",
+  "password": "67890",
   "dummyProp": "dummyProp"
 }
 
@@ -27,6 +27,9 @@ Content-Type: application/json
   "password": "12345",
   "dummyProp": "dummyProp"
 }
+
+### Get user info from Session.userId
+GET http://localhost:3333/auth/whoami
 
 ### find user by ID
 GET http://localhost:3333/auth/6
