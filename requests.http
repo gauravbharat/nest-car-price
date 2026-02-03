@@ -15,6 +15,16 @@ Content-Type: application/json
   "dummyProp": "dummyProp"
 }
 
+### sign in user
+POST http://localhost:3333/auth/signin
+Content-Type: application/json
+
+{
+  "email": "gaurav.mendse@gmail.com",
+  "password": "1234",
+  "dummyProp": "dummyProp"
+}
+
 ### find user by ID
 GET http://localhost:3333/auth/6
 
