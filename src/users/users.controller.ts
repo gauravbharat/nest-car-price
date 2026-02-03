@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  Session,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -26,14 +27,37 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
+  @Get('/whoami')
+  whoAmI(@Session() session: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if ('userId' in session && typeof session.userId !== 'number') {
+      throw new BadRequestException('bad request');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+    return this.userService.findOne(session.userId);
+  }
+
+  @Post('/signout')
+  signout(@Session() session: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    session.userId = null;
+  }
+
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password);
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(body.email, body.password);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    session.userId = user.id;
+    return user;
   }
 
   @Post('/signin')
-  signin(@Body() body: CreateUserDto) {
-    return this.authService.signin(body.email, body.password);
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    session.userId = user.id;
+    return user;
   }
 
   /** Below Route handlers are NOT required;
@@ -42,6 +66,10 @@ export class UsersController {
   @Get('/:id')
   // @Serialize(UserDto) - CAN BE USED ON INDIVIDUAL ROUTE HANDLERS AS WELL
   async findUserById(@Param('id') id: string) {
+    if (!id || typeof id !== 'number') {
+      throw new BadRequestException();
+    }
+
     const foundUser = await this.userService.findOne(+id);
 
     if (!foundUser) {
