@@ -16,18 +16,24 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 @Serialize(UserDto) // APPLIES TO ALL ROUTE HANDLERS
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
-    return this.userService.create(body.email, body.password);
+    return this.authService.signup(body.email, body.password);
   }
 
-  // Below Route handlers are NOT required; created as an examples for typeORM working
+  /** Below Route handlers are NOT required;
+   * created as examples for typeORM working
+   */
   @Get('/:id')
   // @Serialize(UserDto) - CAN BE USED ON INDIVIDUAL ROUTE HANDLERS AS WELL
   async findUserById(@Param('id') id: string) {

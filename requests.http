@@ -11,12 +11,12 @@ Content-Type: application/json
 
 {
   "email": "gaurav.mendse@gmail.com",
-  "password": "ddddasdfdf",
+  "password": "12345",
   "dummyProp": "dummyProp"
 }
 
 ### find user by ID
-GET http://localhost:3333/auth/2
+GET http://localhost:3333/auth/6
 
 ### get user by ID
 GET http://localhost:3333/auth?id=2
@@ -35,4 +35,4 @@ Content-Type: application/json
 }
 
 ### remove user
-DELETE  http://localhost:3333/auth/3
+DELETE  http://localhost:3333/auth/1
