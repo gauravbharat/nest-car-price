@@ -16,7 +16,7 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -86,7 +86,7 @@ export class UsersController {
 
     const foundUser = await this.userService.findOne(+id);
 
-    if (!foundUser) {
+    if (!foundUser || !('id' in foundUser)) {
       throw new NotFoundException('user not found!');
     }
     return foundUser;
