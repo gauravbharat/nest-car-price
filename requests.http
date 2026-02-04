@@ -8,6 +8,9 @@ GET http://localhost:3333/auth
 ### Signout
 POST http://localhost:3333/auth/signout
 
+### Get user info from Session.userId
+GET http://localhost:3333/auth/whoami
+
 ### create user
 POST http://localhost:3333/auth/signup
 Content-Type: application/json
@@ -28,8 +31,7 @@ Content-Type: application/json
   "dummyProp": "dummyProp"
 }
 
-### Get user info from Session.userId
-GET http://localhost:3333/auth/whoami
+
 
 ### find user by ID
 GET http://localhost:3333/auth/6
