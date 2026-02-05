@@ -34,10 +34,10 @@ Content-Type: application/json
 
 
 ### find user by ID
-GET http://localhost:3333/auth/6
+GET http://localhost:3333/auth/9
 
 ### get user by ID
-GET http://localhost:3333/auth?id=2
+GET http://localhost:3333/auth?id=8
 
 ### get user by email
 GET http://localhost:3333/auth?email=gaurav.mendse@gmail.com
@@ -53,4 +53,4 @@ Content-Type: application/json
 }
 
 ### remove user
-DELETE  http://localhost:3333/auth/1
+DELETE  http://localhost:3333/auth/8
