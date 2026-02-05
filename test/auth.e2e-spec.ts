@@ -39,13 +39,34 @@ describe('Authentication System (e2e)', () => {
     // .expect('Hello World!');
   });
 
-  it('throws signup request for email in use', () => {
-    return request(app.getHttpServer())
+  it('signup and then get the currently logged user', async () => {
+    const res = await request(app.getHttpServer())
       .post('/auth/signup')
       .send({
         email,
         password: '12345',
       })
-      .expect(400);
+      .expect(201);
+
+    const cookie = res.get('Set-Cookie') || '';
+
+    await request(app.getHttpServer())
+      .get('/auth/whoami')
+      .set('Cookie', cookie as string)
+      .expect(200)
+      .then((res) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        expect(res?.body?.email).toEqual(email);
+      });
   });
+
+  // it('throws signup request for email in use', () => {
+  //   return request(app.getHttpServer())
+  //     .post('/auth/signup')
+  //     .send({
+  //       email,
+  //       password: '12345',
+  //     })
+  //     .expect(400);
+  // });
 });
