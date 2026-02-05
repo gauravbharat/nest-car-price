@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -6,6 +6,21 @@ import { ReportsModule } from './reports/reports.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
+import { APP_PIPE } from '@nestjs/core';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
+const cookieSession = require('cookie-session');
+
+/** For e2e, main.ts is not executed and hence it misses on the required cookie session
+ * references and the validation pipe checks for incoming API requests.
+ *
+ * From main.ts -
+ * Moved validation pipe initialisation to here to make a Global Validation Pipe provided
+ * using APP_PIPE
+ *
+ * Moved cookie session configuration here to create a global middleware for all incoming
+ * API requests
+ */
 
 @Module({
   imports: [
@@ -26,6 +41,28 @@ import { Report } from './reports/report.entity';
     ReportsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        // Filters out any properties/keys from the body
+        // that DO NOT have any validation decorators in the DTO
+        whitelist: true,
+      }),
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
+        cookieSession({
+          // used to encrypt the information stored inside a cookie
+          keys: ['garydsouza'],
+        }),
+      )
+      .forRoutes('*');
+  }
+}
