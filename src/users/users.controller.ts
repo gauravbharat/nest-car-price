@@ -42,7 +42,7 @@ export class UsersController {
   //   return this.userService.findOne(session.userId);
   // }
 
-  @Get('whoami')
+  @Get('/whoami')
   @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
     if (!user) {
@@ -80,7 +80,7 @@ export class UsersController {
   @Get('/:id')
   // @Serialize(UserDto) - CAN BE USED ON INDIVIDUAL ROUTE HANDLERS AS WELL
   async findUserById(@Param('id') id: string) {
-    if (!id || typeof id !== 'number') {
+    if (!id || isNaN(parseInt(id))) {
       throw new BadRequestException();
     }
 
