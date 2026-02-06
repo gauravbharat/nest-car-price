@@ -1,8 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsNumber, IsString, Min, Max, MaxLength } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  Min,
+  Max,
+  MaxLength,
+  IsPositive,
+} from 'class-validator';
 
 export class CreateReportDto {
   @IsNumber()
+  @IsPositive()
   price: number;
 
   @IsString()

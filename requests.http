@@ -54,3 +54,19 @@ Content-Type: application/json
 
 ### remove user
 DELETE  http://localhost:3333/auth/8
+
+
+### create report
+POST http://localhost:3333/reports
+Content-Type: application/json
+
+{
+  "price": 600000,
+  "currency": "INR",
+  "make": "Hyundai",
+  "model": "Creta",
+  "year": 1930,
+  "city": "Nagpur",
+  "country": "India",
+  "mileage": 56000
+}
