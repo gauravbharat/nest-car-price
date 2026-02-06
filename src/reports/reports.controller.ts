@@ -13,6 +13,8 @@ import { ReportsService } from './reports.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { User } from 'src/users/user.entity';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { ReportDto } from './dtos/report.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -20,6 +22,9 @@ export class ReportsController {
 
   @Post()
   @UseGuards(AuthGuard)
+  // Restrict response to only expose those properties as required. Without the
+  // restricting DTO and Serialize interceptor, the response return the User entity with password!!
+  @Serialize(ReportDto)
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
     return this.reportsService.create(body, user);
   }
