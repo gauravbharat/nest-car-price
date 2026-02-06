@@ -1,3 +1,4 @@
+import { Report } from 'src/reports/report.entity';
 import {
   Entity,
   Column,
@@ -5,6 +6,7 @@ import {
   AfterInsert,
   AfterUpdate,
   AfterRemove,
+  OneToMany,
 } from 'typeorm';
 
 @Entity() // typeORM creates a table in the db
@@ -17,6 +19,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 
   // ENTITY HOOKS
   @AfterInsert()
