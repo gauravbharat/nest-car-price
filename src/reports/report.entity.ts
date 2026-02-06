@@ -15,6 +15,9 @@ export class Report {
   model: string; // Civic, Accord, Verna, etc.
 
   @Column()
+  year: number; //manufacture year
+
+  @Column()
   city: string;
 
   @Column()
