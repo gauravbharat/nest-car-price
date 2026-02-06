@@ -7,4 +7,19 @@ export class Report {
 
   @Column()
   price: number;
+
+  @Column()
+  make: string; // Honda, Hyundai, etc.
+
+  @Column()
+  model: string; // Civic, Accord, Verna, etc.
+
+  @Column()
+  city: string;
+
+  @Column()
+  country: string;
+
+  @Column()
+  mileage: number; // odometer kms
 }
