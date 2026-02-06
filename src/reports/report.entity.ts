@@ -9,6 +9,9 @@ export class Report {
   price: number;
 
   @Column()
+  currency: string; //currency code INR, USD, etc.
+
+  @Column()
   make: string; // Honda, Hyundai, etc.
 
   @Column()

@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsNumber, IsString, Min, Max } from 'class-validator';
+import { IsNumber, IsString, Min, Max, MaxLength } from 'class-validator';
 
 export class CreateReportDto {
   @IsNumber()
   price: number;
+
+  @IsString()
+  @MaxLength(3)
+  currency: string;
 
   @IsString()
   make: string; // Honda, Hyundai, etc.
