@@ -29,6 +29,9 @@ export class ReportDto {
   @Expose()
   mileage: number;
 
+  @Expose()
+  approved: boolean;
+
   // Take the Report entity (obj) and only return the user's ID
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
   @Transform(({ obj }) => obj?.user?.id)

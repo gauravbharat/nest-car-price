@@ -61,15 +61,23 @@ POST http://localhost:3333/reports
 Content-Type: application/json
 
 {
-  "price": 600000,
+  "price": 200000,
   "currency": "INR",
   "make": "Hyundai",
-  "model": "Creta",
-  "year": 1930,
-  "city": "Nagpur",
+  "model": "Elantra",
+  "year": 2015,
+  "city": "Pune",
   "country": "India",
-  "mileage": 56000
+  "mileage": 105000
 }
 
 ### delete report by ID
 DELETE http://localhost:3333/reports/3
+
+### approve or disapprov report
+PATCH http://localhost:3333/reports/5
+Content-Type: application/json
+
+{
+  "approved": false
+}

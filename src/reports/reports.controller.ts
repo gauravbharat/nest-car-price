@@ -5,6 +5,7 @@ import {
   Delete,
   NotFoundException,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { User } from 'src/users/user.entity';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ReportDto } from './dtos/report.dto';
+import { ApprovedReportDto } from './dtos/approved-report.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -29,6 +31,24 @@ export class ReportsController {
     return this.reportsService.create(body, user);
   }
 
+  @Patch(':id')
+  async approveReport(
+    @Param('id') id: string,
+    @Body() body: ApprovedReportDto,
+  ) {
+    if (!id || isNaN(parseInt(id))) {
+      throw new BadRequestException();
+    }
+
+    try {
+      const res = await this.reportsService.changeApproval(+id, body);
+      return res;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   @Delete(':id')
   @UseGuards(AuthGuard)
   async deleteReport(@Param('id') id: string) {
@@ -37,7 +57,8 @@ export class ReportsController {
     }
 
     try {
-      await this.reportsService.remove(+id);
+      const res = await this.reportsService.remove(+id);
+      return res;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundException();
