@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -16,10 +15,14 @@ import { CurrentUserInterceptor } from './interceptors/current-user.interceptor'
     // Make the CurrentUserInterceptor available globally for the User controllers
     // Alternatively, could have been used on single route handler of a controller or on
     // the controller itself by using @UseInterceptor decorator
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CurrentUserInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: CurrentUserInterceptor,
+    // },
   ],
 })
-export class UsersModule {}
+export class UsersModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  }
+}
