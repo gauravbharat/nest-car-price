@@ -81,3 +81,6 @@ Content-Type: application/json
 {
   "approved": false
 }
+
+### Get an estimate for an existing vehicle
+GET http://localhost:3333/reports?make=hyundai&model=creta&city=nagpur

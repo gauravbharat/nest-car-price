@@ -5,6 +5,7 @@ import { Report } from './report.entity';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { User } from 'src/users/user.entity';
 import { ApprovedReportDto } from './dtos/approved-report.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Injectable()
 export class ReportsService {
@@ -45,5 +46,33 @@ export class ReportsService {
     report.approved = dto.approved;
 
     return this.repo.save(report);
+  }
+
+  createEstimate(dto: GetEstimateDto) {
+    // Use query builder to build a SQL query
+    const query = this.repo
+      .createQueryBuilder('report')
+      .select('*')
+      .where('LOWER(report.make) = LOWER(:make)', { make: dto.make })
+      .andWhere('LOWER(report.model) = LOWER(:model)', { model: dto.model })
+      .andWhere('LOWER(report.city) = LOWER(:city)', { city: dto.city });
+
+    if (dto.country) {
+      query.andWhere('LOWER(report.country) = LOWER(:country)', {
+        country: dto.country,
+      });
+    }
+
+    if (dto.year) {
+      query.andWhere('report.year - :year BETWEEN -10 AND 10', {
+        year: dto.year,
+      });
+    }
+
+    if (dto.mileage) {
+      query.andWhere('report.mileage >= :mileage', { mileage: dto.mileage });
+    }
+
+    return query.orderBy('report.year', 'DESC').getRawMany();
   }
 }
