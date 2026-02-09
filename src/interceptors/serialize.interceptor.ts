@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { map, Observable } from 'rxjs';
-import { ClassConstructor } from 'src/models/app.model';
+import { ClassConstructor } from '../models/app.model';
 
 // New decorator to shorten the call/usage
 export function Serialize(dto: ClassConstructor) {
