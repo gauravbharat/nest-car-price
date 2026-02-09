@@ -4,10 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { Report } from './reports/report.entity';
 import { APP_PIPE } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import AppDataSource from '../ormconfig';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
 const cookieSession = require('cookie-session');
@@ -31,20 +30,14 @@ const cookieSession = require('cookie-session');
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
+      useFactory: () => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          entities: [User, Report],
-          /** DEV ONLY OPTION! NOT FOR PROD SINCE DB SCHEMA CAN BE AUTO-CREATED ON EACH APP LAUNCH!!
-           * When an Entity is updated, this flag if TRUE, lets typeORM to update the DB schema.
-           * It can DELETE a column as well if removed from Entity!!
-           * Use cautiously and for initial DB structure only when in still in DEVELOPMENT!!
-           *
-           * If this flag is FALSE, then a migration SQL script has to be created to update/change the DB structure manually.
-           */
-          synchronize: true,
-        };
+          type: AppDataSource.options.type,
+          database: AppDataSource.options.database,
+          entities: AppDataSource.options.entities,
+          synchronize: AppDataSource.options.synchronize,
+        } as any;
       },
     }),
     UsersModule,

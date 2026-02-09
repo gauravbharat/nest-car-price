@@ -72,7 +72,7 @@ Content-Type: application/json
 }
 
 ### delete report by ID
-DELETE http://localhost:3333/reports/3
+DELETE http://localhost:3333/reports/1
 
 ### approve or disapprov report
 PATCH http://localhost:3333/reports/5
@@ -83,4 +83,4 @@ Content-Type: application/json
 }
 
 ### Get an estimate for an existing vehicle
-GET http://localhost:3333/reports?make=hyundai&model=creta&city=nagpur
+GET http://localhost:3333/reports?make=hyundai&model=elantra&city=pune
